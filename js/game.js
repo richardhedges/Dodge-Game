@@ -34,16 +34,17 @@ function startGame(event) {
 
 	$('#game').addClass('running');
 
-	var cursorTop = event.pageY - 5;
-	var cursorLeft = event.pageX - 5;
-	$('#game').append('<span id="cursor" style="top:' + cursorTop + 'px;left:' + cursorLeft + 'px;" />');
+	var cursorSize = 10;
+	var cursorTop = event.pageY - (cursorSize / 2) - $('#game').offset().top;
+	var cursorLeft = event.pageX - (cursorSize / 2);
+	$('#game').append('<span id="cursor" style="width:' + cursorSize + 'px;height:' + cursorSize + 'px;top:' + cursorTop + 'px;left:' + cursorLeft + 'px;" />');
 
 	var cursor = $('#game #cursor');
 
 	$('#game').on('mousemove', function(event) {
 
-		cursorTop = event.pageY - 5;
-		cursorLeft = event.pageX - 5;
+		cursorTop = event.pageY - (cursorSize / 2) - $('#game').offset().top;
+		cursorLeft = event.pageX - (cursorSize / 2);
 
 		if (cursorTop >= $('#game').offset().top && cursorTop < ($('#game').offset().top + $('#game').outerHeight()) && cursorLeft >= $('#game').offset().left && cursorLeft < ($('#game').offset().left + $('#game').outerWidth())) {
 
@@ -89,18 +90,18 @@ function runGame() {
 
 	setInterval(function() {
 
-		createEnemy();
+		createEnemy(10);
 
 	}, (rate * 1000));
 
 }
 
-function createEnemy() {
+function createEnemy(size) {
 
 	var side = (Math.floor((Math.random() * 1) + 0) == 1) ? 'right' : 'left';
-	var top = Math.floor((Math.random() * ($('#game').offset().top + $('#game').outerHeight())) + $('#game').offset().top);
+	var top = Math.floor((Math.random() * ($('#game').outerHeight() - size)) + ($('#game').offset().top - size));
 
-	$('#game').append('<span class="enemy" style="top:' + top + 'px;' + side + ':0;" style="" />');
+	$('#game').append('<span class="enemy" style="width:' + size + 'px;height:' + size + 'px;top:' + top + 'px;' + side + ':0;" style="" />');
 
 	console.log('created new element');
 
